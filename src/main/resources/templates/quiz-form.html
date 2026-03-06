@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Configurer votre quiz</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-primary text-white text-center py-4">
+                        <h2 class="mb-0">
+                            <i class="fas fa-cog me-2"></i>
+                            Configurer votre quiz
+                        </h2>
+                    </div>
+                    <div class="card-body p-5">
+                        <form action="/quiz/generate" method="post">
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">
+                                    <i class="fas fa-book me-2"></i>Matière
+                                </label>
+                                <select name="matiere" class="form-select form-select-lg" required>
+                                    <option value="" disabled selected>Choisissez une matière</option>
+                                    <option value="anglais">🇬🇧 Anglais</option>
+                                    <option value="maths">📐 Mathématiques</option>
+                                    <option value="chimie">🧪 Chimie</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-5">
+                                <label class="form-label fw-bold">
+                                    <i class="fas fa-question-circle me-2"></i>Nombre de questions
+                                </label>
+                                <input type="number" name="nombreQuestions" 
+                                       class="form-control form-control-lg" 
+                                       min="1" max="20" value="5" required>
+                                <small class="text-muted">Maximum 20 questions</small>
+                            </div>
+                            
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-play me-2"></i>Générer le quiz
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

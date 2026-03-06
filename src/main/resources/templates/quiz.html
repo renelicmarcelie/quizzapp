@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${quiz.titre}">Quiz</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-primary text-white py-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h2 class="mb-0">
+                                <i class="fas fa-question-circle me-2"></i>
+                                <span th:text="${quiz.titre}">Quiz</span>
+                            </h2>
+                            <span class="badge bg-light text-dark fs-6">
+                                <i class="fas fa-list me-2"></i>
+                                <span th:text="${quiz.questions.size()}">0</span> questions
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body p-4">
+                        <form action="/quiz/submit" method="post" id="quizForm">
+                            <input type="hidden" name="id" th:value="${quiz.id}">
+                            
+                            <div th:each="question, stat : ${quiz.questions}" class="question-card">
+                                <div class="d-flex align-items-center mb-3">
+                                    <span class="badge bg-primary rounded-circle p-3 me-3" 
+                                          th:text="${stat.index + 1}">1</span>
+                                    <h5 class="mb-0" th:text="${question.texte}">Question</h5>
+                                </div>
+                                
+                                <div class="options-container ms-4">
+                                    <div th:each="option : ${question.options}" class="option-wrapper">
+                                        <label class="option-label">
+                                            <input type="radio" 
+                                                   th:name="'questions[' + ${stat.index} + '].reponseUtilisateur'" 
+                                                   th:value="${option}" 
+                                                   class="form-check-input me-2"
+                                                   required>
+                                            <span th:text="${option}">Option</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <!-- Hidden fields pour conserver les données de la question -->
+                                <input type="hidden" 
+                                       th:name="'questions[' + ${stat.index} + '].id'" 
+                                       th:value="${question.id}">
+                                <input type="hidden" 
+                                       th:name="'questions[' + ${stat.index} + '].texte'" 
+                                       th:value="${question.texte}">
+                                <input type="hidden" 
+                                       th:name="'questions[' + ${stat.index} + '].options'" 
+                                       th:value="${question.options}">
+                                <input type="hidden" 
+                                       th:name="'questions[' + ${stat.index} + '].bonneReponse'" 
+                                       th:value="${question.bonneReponse}">
+                            </div>
+                            
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-success btn-lg">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    Soumettre mes réponses
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

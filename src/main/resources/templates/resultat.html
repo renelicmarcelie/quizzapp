@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Résultats du Quiz</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-lg border-0 result-card">
+                    <div class="card-body p-5">
+                        <div class="text-center">
+                            <i class="fas fa-trophy fa-4x text-warning mb-4"></i>
+                            <h2 class="mb-4">Quiz terminé !</h2>
+                            
+                            <!-- Calcul du pourcentage -->
+                            <div th:with="pourcentage=${total > 0 ? (score * 100 / total) : 0}">
+                                <!-- Score circle avec couleur conditionnelle -->
+                                <div class="score-circle" 
+                                     th:classappend="${pourcentage >= 70} ? 'bg-success' : (${pourcentage >= 50} ? 'bg-warning' : 'bg-danger')">
+                                    <span th:text="${score + '/' + total}">0/0</span>
+                                </div>
+                                
+                                <!-- Messages de félicitations -->
+                                <h3 class="mt-4 mb-3" th:if="${pourcentage >= 70}">
+                                    <i class="fas fa-star text-warning me-2"></i>
+                                    Félicitations ! Excellent travail !
+                                </h3>
+                                <h3 class="mt-4 mb-3" th:if="${pourcentage >= 50 and pourcentage < 70}">
+                                    <i class="fas fa-smile text-info me-2"></i>
+                                    Bon travail ! Continuez comme ça !
+                                </h3>
+                                <h3 class="mt-4 mb-3" th:if="${pourcentage < 50}">
+                                    <i class="fas fa-redo text-danger me-2"></i>
+                                    Pas de problème ! Réessayez pour vous améliorer !
+                                </h3>
+                                
+                                <p class="lead mb-4">
+                                    Vous avez obtenu <strong th:text="${score}">0</strong> bonnes réponses 
+                                    sur <strong th:text="${total}">0</strong> questions.
+                                </p>
+                                
+                                <!-- Barre de progression - Version simplifiée -->
+                                <div class="progress mb-4" style="height: 30px;">
+                                    <div class="progress-bar" 
+                                         th:classappend="${pourcentage >= 70} ? 'bg-success' : (${pourcentage >= 50} ? 'bg-warning' : 'bg-danger')"
+                                         th:style="'width: ' + ${pourcentage} + '%;'"
+                                         th:text="${#numbers.formatDecimal(pourcentage, 1, 0) + '%'}"
+                                         role="progressbar">
+                                        0%
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-5">
+                                <a href="/" class="btn btn-primary btn-lg me-3">
+                                    <i class="fas fa-home me-2"></i>
+                                    Accueil
+                                </a>
+                                <a href="/quiz/form" class="btn btn-outline-primary btn-lg">
+                                    <i class="fas fa-redo me-2"></i>
+                                    Nouveau quiz
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
